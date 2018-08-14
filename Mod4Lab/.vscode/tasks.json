@@ -1,0 +1,9 @@
+{
+    "version": "0.1.0",
+    "command": "node-Sass",
+    "isShellCommand": true,
+    "args": [
+        "scss/styles.scss",
+        "css/styles.css"
+    ]
+}

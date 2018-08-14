@@ -1,0 +1,26 @@
+@import "base/normalize";
+@import "base/base";
+/*Layout Styles*/
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1170px;
+}
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+[class*='col-'] {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+   
+}
+@import "layout/layout";

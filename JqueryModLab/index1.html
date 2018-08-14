@@ -1,0 +1,105 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+        body {
+            font-family: Verdana;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: darkblue;
+        }
+
+        .rating-circle {
+            height: 2em;
+            width: 2em;
+            border: .1em solid black;
+            border-radius: 1.1em;
+            display: inline-block;
+            margin: 0;
+            padding: .1em;
+        }
+
+        .rating-hover {
+            background-color: yellow;
+        }
+
+        .rating-chosen {
+            background-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Contoso Web Developer Conference</h1>
+    <h2>Finding elements using jQuery</h2>
+    <div>This session is about identifying elements using jQuery methods and selectors.</div>
+    <h3>Rate this session</h3>
+    <div id="rating-container" max-value="5"></div>
+    
+    <div>
+        <label for="max-value">Enter max value:</label>
+        <input type="text" id="max-value" />
+        <button type="button" id="update-max-value">Update max value</button>
+    </div>
+    
+    
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+
+    <script>
+        $(function(){
+            //create a delegate event handler for all rating elements starting with mouseenter
+            $("#rating-container").delegate(".rating-circle", "mouseenter", function(){
+            //remove rating-chosen and rating-hover class from all
+            $("#rating-container > div.rating-circle").removeClass("rating-chosen rating-hover");
+            //add rating hover to all previous element and even the current element
+            $(this).prevAll().addClass("rating-hover");
+            $(this).addClass("rating-hover");
+            }
+            );
+            //create a delegate for mouseout handler
+            $("#rating-container").delegate(".rating-circle", "mouseout", function(){
+            //remove rating-hover class from all
+            $("#rating-container > div.rating-hover").removeClass("rating-hover");
+            //reapply rating-chosen to all chosen circles
+            $("#rating-container").children("[chosen = 'chosen']").addClass("rating-chosen");
+            });
+            //create a delegate for click handler
+            $("#rating-container").delegate(".rating-circle", "click", function(){
+            //remove rating-hover, rating-chosen and also attribute chosen from all
+            $("#rating-container > div.rating-circle").removeClass("rating-hover rating-chosen").removeAttr("chosen");
+            //apply rating-chosen and attribute chosen to previous and current elements
+            $(this).prevAll().addClass("rating-chosen").attr("chosen", "chosen");
+            $(this).addClass("rating-chosen").attr("chosen", "chosen");
+            });
+            //bind a click event to the update maximum button
+            $("#update-max-value").click(function(){
+            //accept input value from input box and trim whitespace
+            var newMax = $("#max-value").val().trim();
+            //validate to ensure user input an integer
+            if(!/^[0-9]+$/.test(newMax)){
+                alert("Please enter a valid number!");
+            $("#max-value").focus();
+            } else if   
+            //check if the input value is between 1 and 20
+             ((newMax === 0)||(newMax > 20)){
+                alert("Number must be between 1 and 20")
+            } else {
+            //since all check are passed, we can update max-value attr on rating-container
+            $("#rating-container").attr("max-value", newMax);
+            //empty the rating-container
+            $("#rating-container").empty();
+            for(i = 0; i < newMax; i++) {
+                $("#rating-container").append("<div class='rating-circle'></div>");
+            }
+            }
+            })
+        }
+        )
+    </script>
+</body>
+
+</html>
